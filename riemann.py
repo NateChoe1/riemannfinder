@@ -23,8 +23,14 @@ print("Enter the upper bound for the approximation")
 assign_last_input()
 high_bound = float(last_input)
 
-print("Are you going to input a function? (versus a table) y/n")
-if input() == "y":
+print("Select mode:")
+print("(1) Input a function")
+print("(2) Input a table")
+choice = input()
+while choice != "1" and choice != "2":
+    print("Please input either 1 or 2")
+    choice = input()
+if choice == "1":
     print("Enter the number of divisious for the approximation")
     assign_last_input()
     divisions = float(last_input)

@@ -72,11 +72,11 @@ else:
     lefttotal = 0
     righttotal = 0
     midtotal = 0
-    for i in range(0, len(xvalues)):
-        if i < len(xvalues) - 1:
-            lefttotal += yvalues[i] * (xvalues[i + 1] - xvalues[i])
-            righttotal += yvalues[i + 1] * (xvalues[i + 1] - xvalues[i])
-            midtotal += ((yvalues[i + 1] + yvalues[i]) / 2) * (xvalues[i + 1] - xvalues[i])
+    for i in range(0, len(xvalues) - 1):
+        lefttotal += yvalues[i] * (xvalues[i + 1] - xvalues[i])
+        righttotal += yvalues[i + 1] * (xvalues[i + 1] - xvalues[i])
+        if i % 2 == 1 and len(xvalues) % 2 == 1:
+            midtotal += yvalues[i] * (xvalues[i + 1] - xvalues[i - 1])
     print("Left aligned riemann sum: " + str(lefttotal))
     print("Right aligned riemann sum: " + str(righttotal))
     print("Midpoint aligned riemann sum: " + str(midtotal))

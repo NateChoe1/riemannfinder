@@ -23,41 +23,55 @@ print("Enter the upper bound for the approximation")
 assign_last_input()
 high_bound = float(last_input)
 
-print("Enter the number of divisious for the approximation")
-assign_last_input()
-divisions = float(last_input)
+print("Are you going to input a function? (versus a table) y/n")
+if input() == "y":
+    print("Enter the number of divisious for the approximation")
+    assign_last_input()
+    divisions = float(last_input)
 
-#This is bad practice with 3 repeats, but honestly I don't care.
+    x = low_bound
+    print("Enter in the function. Note: This must be done in python code, so instead of 5x, enter in y=5*x.")
+    function = input()
+    left_sum = 0
+    right_sum = 0
+    while x <= high_bound:
+        exec(function)
+        accumulate = y * (high_bound - low_bound) / divisions
+        if x != high_bound:
+            left_sum += accumulate
+        if x != low_bound:
+            right_sum += accumulate
+    print("Left aligned riemann sum: " + str(left_sum))
 
-x = low_bound
-print("Enter in the function. Note: This must be done in python code, so instead of 5x, enter in 5*x. This is extremely bad practice and will almost definitely result in glitches if you try, but I don't care.")
-function = input()
-total = 0
-while x < high_bound:
-    exec(function)
-    x += (high_bound - low_bound) / divisions
-    total += y * (high_bound - low_bound) / divisions
-left_sum = total
-print("Left aligned riemann sum: " + str(total))
+    x = low_bound + ((high_bound - low_bound) / 2)
+    mid_sum = 0
+    while x < high_bound:
+        exec(function)
+        total += y * (high_bound - low_bound) / (divisions - 1)
+        x += (high_bound - low_bound) / divisions
+    #this is a bit of duplication, but fixing it would require a lot of work.
 
-
-total = 0
-x = high_bound
-while x > low_bound:
-    exec(function)
-    x -= (high_bound - low_bound) / divisions
-    total += y * (high_bound - low_bound) / divisions
-right_sum = total
-print("Right aligned riemann sum: " + str(total))
-
-x = low_bound + ((high_bound - low_bound) / 2)
-total = 0
-while x < high_bound:
-    exec(function)
-    x += (high_bound - low_bound) / divisions
-    total += y * (high_bound - low_bound) / (divisions - 1)
-    print(x)
-
-print("Midpoint aligned riemann sum: " + str(total))
-
-print("Trapezoidala riemann sum: " + str((left_sum + right_sum) / 2))
+    print("Midpoint aligned riemann sum: " + str(mid_sum))
+    print("Trapezoidala riemann sum: " + str((left_sum + right_sum) / 2))
+else:
+    iteration = low_bound
+    xvalues = []
+    yvalues = []
+    while iteration < high_bound:
+        print("Enter in an x value")
+        xvalues.append(float(input()))
+        print("Enter in a y value")
+        yvalues.append(float(input()))
+        iteration = xvalues[-1]
+    lefttotal = 0
+    righttotal = 0
+    midtotal = 0
+    for i in range(0, len(xvalues)):
+        if i < len(xvalues) - 1:
+            lefttotal += yvalues[i] * (xvalues[i + 1] - xvalues[i])
+            righttotal += yvalues[i + 1] * (xvalues[i + 1] - xvalues[i])
+            midtotal += ((yvalues[i + 1] + yvalues[i]) / 2) * (xvalues[i + 1] - xvalues[i])
+    print("Left aligned riemann sum: " + str(lefttotal))
+    print("Right aligned riemann sum: " + str(righttotal))
+    print("Midpoint aligned riemann sum: " + str(midtotal))
+    print("Trapezoidal riemann sum: " + str((lefttotal + righttotal) / 2))
